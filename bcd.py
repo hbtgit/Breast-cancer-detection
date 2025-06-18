@@ -29,7 +29,7 @@ class LocalityPreservingProjection(tf.keras.layers.Layer):
 get_custom_objects().update({'LocalityPreservingProjection': LocalityPreservingProjection})
 
 # Load the model
-model = tf.keras.models.load_model('/home/hab/BCD/Breast_cancer_detection/model/Inception_V4_with_LPP.h5')
+model = tf.keras.models.load_model('//home/hab/BCDP/Breast-cancer-detection/model/inception_v4_lpp.h5')
 
 # Compile the model to include metrics (use the same metrics as during training)
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
