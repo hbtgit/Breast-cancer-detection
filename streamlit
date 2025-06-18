@@ -1,0 +1,1 @@
+streamlit run /home/hab/BCD/Breast_cancer_detection/bcd.py --server.port=8501 --server.address=127.0.0.1
