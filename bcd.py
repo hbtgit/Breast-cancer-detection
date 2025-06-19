@@ -131,8 +131,8 @@ if uploaded_file is not None:
             image_array = (image_array - np.min(image_array)) / (np.max(image_array) - np.min(image_array)) * 255.0
             image_array = image_array.astype(np.uint8)
             # Convert to RGB if grayscale
-            if len(image_array.shape) == 2:  # Grayscale
-                image_array = np.stack([image_array] * 3, axis=-1)
+            # if len(image_array.shape) == 2:  # Grayscale
+            #     image_array = np.stack([image_array] * 3, axis=-1)
             image = Image.fromarray(image_array)
         except Exception as e:
             st.error(f"Error reading DICOM file: {e}")
