@@ -3,6 +3,7 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 from tensorflow.keras.utils import get_custom_objects
+import pydicom
 
 # Define the LocalityPreservingProjection layer (replace with actual implementation)
 class LocalityPreservingProjection(tf.keras.layers.Layer):
@@ -29,7 +30,7 @@ class LocalityPreservingProjection(tf.keras.layers.Layer):
 get_custom_objects().update({'LocalityPreservingProjection': LocalityPreservingProjection})
 
 # Load the model
-model = tf.keras.models.load_model('//home/hab/BCDP/Breast-cancer-detection/model/inception_v4_lpp.h5')
+model = tf.keras.models.load_model('/home/hab/B/Breast-cancer-detection/model/Inception_V4_with_LPP.h5')
 
 # Compile the model to include metrics (use the same metrics as during training)
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -118,11 +119,27 @@ st.markdown(
 st.title("Inception V4 with LPP - Mammogram Classification")
 st.write("Upload an image to classify it as Benign or Malignant across Density 1-4.")
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png"])
+uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "png", "dcm"])
 
 if uploaded_file is not None:
+    if uploaded_file.name.endswith('.dcm'):
+        # Handle DICOM file
+        try:
+            dicom = pydicom.dcmread(uploaded_file)
+            image_array = dicom.pixel_array
+            # Normalize pixel values to [0, 255]
+            image_array = (image_array - np.min(image_array)) / (np.max(image_array) - np.min(image_array)) * 255.0
+            image_array = image_array.astype(np.uint8)
+            # Convert to RGB if grayscale
+            if len(image_array.shape) == 2:  # Grayscale
+                image_array = np.stack([image_array] * 3, axis=-1)
+            image = Image.fromarray(image_array)
+        except Exception as e:
+            st.error(f"Error reading DICOM file: {e}")
+            st.stop()
+    else:
     # Display the uploaded image
-    image = Image.open(uploaded_file)
+        image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image", use_container_width=True)
 
     # Preprocess the image
