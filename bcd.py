@@ -97,7 +97,7 @@ st.markdown(
 col1, col2 = st.columns([1, 4])  # Adjust ratio for layout
 with col1:
     try:
-        logo = Image.open('/home/hab/BCD/Breast_cancer_detection/logo.png')
+        logo = Image.open('/home/hab/B/Breast-cancer-detection/logo.png')
         st.image(logo, width=150)  # Reduced width for balance
     except FileNotFoundError:
         st.warning("Logo not found. Please place 'logo.png' in the project directory.")
