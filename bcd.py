@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 from tensorflow.keras.utils import get_custom_objects
 import pydicom
+import os
 
 # Define the LocalityPreservingProjection layer (replace with actual implementation)
 class LocalityPreservingProjection(tf.keras.layers.Layer):
@@ -30,7 +31,7 @@ class LocalityPreservingProjection(tf.keras.layers.Layer):
 get_custom_objects().update({'LocalityPreservingProjection': LocalityPreservingProjection})
 
 # Load the model
-model = tf.keras.models.load_model('/home/hab/B/Breast-cancer-detection/model/Inception_V4_with_LPP.h5')
+model = tf.keras.models.load_model('C:/Users/Hab/Desktop/BCD/Breast-cancer-detection/model/Inception_V4_with_LPP.h5')
 
 # Compile the model to include metrics (use the same metrics as during training)
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -97,7 +98,7 @@ st.markdown(
 col1, col2 = st.columns([1, 4])  # Adjust ratio for layout
 with col1:
     try:
-        logo = Image.open('/home/hab/B/Breast-cancer-detection/logo.png')
+        logo = Image.open('C:/Users/Hab/Desktop/BCD/Breast-cancer-detection/logo.png')
         st.image(logo, width=150)  # Reduced width for balance
     except FileNotFoundError:
         st.warning("Logo not found. Please place 'logo.png' in the project directory.")
@@ -140,7 +141,7 @@ if uploaded_file is not None:
     else:
     # Display the uploaded image
         image = Image.open(uploaded_file)
-    st.image(image, caption="Uploaded Image", use_container_width=True)
+    st.image(image, caption="Uploaded Image")
 
     # Preprocess the image
     image = image.resize((299, 299))  # Inception V4 input size
